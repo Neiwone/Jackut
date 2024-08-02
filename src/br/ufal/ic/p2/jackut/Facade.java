@@ -1,5 +1,7 @@
 package br.ufal.ic.p2.jackut;
 
+import java.util.List;
+
 public class Facade {
     private System sys;
 
@@ -20,15 +22,26 @@ public class Facade {
     }
 
     public String abrirSessao(String login, String senha) throws Exception {
-        sys.login(login, senha);
-        return sys.current_user.getID();
+        return sys.login(login, senha);
     }
 
     public void encerrarSistema() {
 
     }
 
-    public void editarPerfil(String id, String atributo, String valor) {
+    public void editarPerfil(String id, String atributo, String valor) throws Exception {
+        sys.changeUserInfo(id, atributo, valor);
+    }
 
+    public boolean ehAmigo(String login, String amigo) {
+        return sys.isFriendOf(login, amigo);
+    }
+
+    public void adicionarAmigo(String id, String amigo) throws Exception {
+        sys.setFriend(id, amigo);
+    }
+
+    public List<String> getAmigos(String login) {
+        return sys.getFriendsFromUser(login);
     }
 }

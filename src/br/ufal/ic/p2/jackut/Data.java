@@ -23,8 +23,8 @@ public class Data {
         return users.get(login);
     }
 
-    public void addUser(User user) {
-        users.put(user.getLogin(), user);
+    public void addUser(User user) throws Exception {
+        users.put(user.getInfo("login"), user);
     }
 
     public void removeAllUsers() {
