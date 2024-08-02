@@ -1,6 +1,7 @@
 package br.ufal.ic.p2.jackut;
 
 import java.util.List;
+import java.util.Set;
 
 public class Facade {
     private System sys;
@@ -41,7 +42,15 @@ public class Facade {
         sys.setFriend(id, amigo);
     }
 
-    public List<String> getAmigos(String login) {
+    public Set<String> getAmigos(String login) {
         return sys.getFriendsFromUser(login);
+    }
+
+    public void enviarRecado(String id, String destinatario, String recado) throws Exception {
+        sys.sendMessage(id, destinatario, recado);
+    }
+
+    public String lerRecado(String id) throws Exception {
+        return sys.readMessage(id).getMessage();
     }
 }

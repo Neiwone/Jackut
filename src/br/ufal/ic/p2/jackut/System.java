@@ -4,6 +4,7 @@ import br.ufal.ic.p2.jackut.models.User;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public class System {
@@ -83,14 +84,22 @@ public class System {
 
     }
 
-    public void sendRequest(String user1_token, String user2_login) throws Exception {
-        User user1 = this.current_users.get(user1_token);
-        User user2 = this.database.getUser(user2_login);
-
-
+    public Set<String> getFriendsFromUser(String login) {
+        return this.database.getUser(login).getFriends();
     }
 
-    public List<String> getFriendsFromUser(String login) {
-        return this.database.getUser(login).getFriends();
+    public void sendMessage(String user1_token, String user2_login, String message) throws Exception {
+        User user1 = current_users.get(user1_token);
+        User user2 = database.getUser(user2_login);
+
+        if(user1 == null || user2 == null) throw new Exception("Usu?rio n?o cadastrado.");
+        if(user1 == user2) throw new Exception("Usu?rio n?o pode enviar recado para si mesmo.");
+
+        Mail m = new Mail(user1.getInfo("login"), message);
+        user2.pushMail(m);
+    }
+
+    public Mail readMessage(String user_token) throws Exception {
+        return current_users.get(user_token).popMail();
     }
 }

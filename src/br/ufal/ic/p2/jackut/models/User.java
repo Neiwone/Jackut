@@ -1,16 +1,20 @@
 package br.ufal.ic.p2.jackut.models;
 
+import br.ufal.ic.p2.jackut.Mail;
+
 import java.util.*;
 
 public class User {
     private LinkedHashMap<String, String> user_info;
     private Set<String> friend_list;
     private Set<String> friend_request;
+    private Queue<Mail> mail_box;
 
     public User() {
         this.user_info = new LinkedHashMap<>();
         this.friend_list = new HashSet<>();
         this.friend_request = new HashSet<>();
+        this.mail_box = new LinkedList<>();
     }
 
     public String getInfo(String info) throws Exception {
@@ -47,8 +51,8 @@ public class User {
         return friend_list.contains(friend_login);
     }
 
-    public List<String> getFriends() {
-        return friend_list.stream().toList();
+    public Set<String> getFriends() {
+        return friend_list;
     }
 
     public boolean wasRequested(String friend_login) {
@@ -61,5 +65,15 @@ public class User {
 
     public void addRequest(String friend_login) {
         friend_request.add(friend_login);
+    }
+
+
+    public Mail popMail() throws Exception {
+        if(mail_box.isEmpty()) throw new Exception("N?o h? recados.");
+        return mail_box.remove();
+    }
+
+    public void pushMail(Mail m) {
+        mail_box.add(m);
     }
 }
